@@ -6,17 +6,12 @@ require 'bloc_record/base'
 class AddressBook < BlocRecord::Base
   attr_reader :entries
 
-  # Because our instance variables are now determined from the database table, we no longer need initialize method with @entries instance variable. 
+  # Because our instance variables are now determined from the database table, we no longer need initialize method with @entries instance variable.
 
-  def add_entry(name, phone_number, email)
-    index = 0
-    entries.each do |entry|
-      if name < entry.name
-        break
-      end
-      index += 1
-    end
-    entries.insert(index, Entry.new(name, phone_number, email))
+  # Creating objects will be handled by BlocRecord
+  # pass name, phone, and email to the create method we defined in BlocRecord's persistence module.
+  def add_entry(name, phone, email)
+    Entry.create(name: name, phone_number: phone, email: email, address_book_id: self.id)
   end
 
   def import_from_csv(file_name)
@@ -29,24 +24,5 @@ class AddressBook < BlocRecord::Base
     end
   end
 
-  # Search AddressBook for a specific entry by name
-  def binary_search(name)
-    lower = 0
-    upper = entries.length - 1
-
-    while lower <= upper
-      mid = (lower + upper) / 2
-      mid_name = entries[mid].name
-
-      if name == mid_name
-        return entries[mid]
-      elsif name < mid_name
-        upper = mid - 1
-      elsif name > mid_name
-        lower = mid + 1
-      end
-    end
-
-    return nil
-  end
+  # we deleted the binary_search method, since searching is now handled by SQLite
 end
