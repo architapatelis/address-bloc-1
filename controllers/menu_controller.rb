@@ -153,8 +153,7 @@ class MenuController
   end
 
   def delete_entry(entry)
-    address_book.entries.delete(entry)
-    puts "#{entry.name} has been deleted"
+    @address_book.entries.destroy(entry) #call destroy method in bloc_record/collection
   end
 
   def edit_entry(entry)

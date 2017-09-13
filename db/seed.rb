@@ -3,33 +3,16 @@ require_relative '../models/entry'
 require 'bloc_record'
 
 BlocRecord.connect_to('db/address_bloc.sqlite')
-
 #tests:
 
-puts "#1"
-people = { 3 => { "name" => "John Oliver" }, 4 => { "email" => "matt@gmail.com" } }
-Entry.update(people.keys, people.values)
-puts "------------------------------------------------------------"
+puts Entry.destroy_all("phone_number = '949-242-3435'")
+puts "--------------------------------------------------"
 
+puts Entry.destroy_all("phone_number = ?", '999-254-6565')
+puts "--------------------------------------------------"
 
-puts "#2"
-e = Entry.all[4]
-puts e.update_name("Kate Smith")
-puts e.update_email("kate@gmail.com")
-puts "------------------------------------------------------------"
-
-puts "#3"
-puts Entry.where(name: 'Kate Smith').take
-puts "------------------------------------------------------------"
-
-puts "#4"
-puts Entry.where(name: 'Kate Smith').where(email: 'kate@gmail.com')
-puts "------------------------------------------------------------"
-
-puts "#5"
-puts Entry.where(name: 'Kate Smith').not(email: 'kate@gmail.com')
-puts "------------------------------------------------------------"
-
+puts Entry.where(name: "Jane Doe").destroy_all
+puts "--------------------------------------------------"
 
 # book = AddressBook.create(name: 'My Address Book')
 #
